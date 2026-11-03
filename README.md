@@ -38,3 +38,9 @@ It needs the release key. `android/keystore.properties` (untracked) points at a 
 - `android/app/src/main/java/uk/co/froglog/app/widgets/`: the widgets (`QuickSessionWidget` is Current Activity, `FriendsWidget` is Online Now, `ThisWeekWidget` is Last 7 Days), the theme picker and the theme table.
 - `scripts/`: building, releasing and the widget tools. `generate-widget-themes.js`, `generate-assets.js` and `debug-widget.js` read files from the FrogLog web app's source, so they need that checked out next to this folder (`../frontend`, `../backend`). Their output is committed, so building does not.
 - `npm run widget-state -- <state>` puts made-up sessions in the widgets on a connected phone (FrogLog Dev only), to see each look.
+
+## Licence
+
+Copyright (C) 2026 Oli Gray. Licensed under the [GNU General Public License v3.0](LICENSE): you can use, study, change and share this code, but anything you distribute that is built on it must be released under the same licence, with its source.
+
+The FrogLog name, the frog and lily pad artwork and the app's icons are not covered by it, and are not licensed for reuse.
