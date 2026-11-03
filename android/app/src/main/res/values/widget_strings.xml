@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_quick_session_label">Current Activity</string>
+    <string name="widget_quick_session_description">Shows your online status as it appears on FrogLog.</string>
+    <string name="widget_title_current_activity">Current Activity</string>
+    <string name="widget_title_last_7_days">Last 7 Days</string>
+    <string name="widget_title_online_now">Online Now</string>
+    <string name="widget_signed_out_title">Sign in to FrogLog</string>
+    <string name="widget_signed_out_hint">Open the app to sign in</string>
+    <string name="widget_idle_title">No session in progress</string>
+    <string name="widget_idle_hint">Tap to open your games</string>
+    <string name="widget_last_session">Last Session: %1$s</string>
+    <string name="widget_last_duration">Duration: %1$s</string>
+    <string name="widget_in_game">In Game: %1$s</string>
+    <string name="widget_paused_game">Paused: %1$s</string>
+    <string name="widget_unknown_game">Untitled game</string>
+    <string name="widget_start">Start</string>
+    <string name="widget_pause">Pause</string>
+    <string name="widget_resume">Resume</string>
+    <string name="widget_stop">Stop</string>
+
+    <string name="widget_this_week_label">Last 7 Days</string>
+    <string name="widget_this_week_description">Shows your FrogLog session history over the last week.</string>
+    <string name="widget_week_loading">Loading your week…</string>
+    <string name="widget_week_up">▲ %1$s more than last week</string>
+    <string name="widget_week_down">▼ %1$s less than last week</string>
+    <string name="widget_week_same">Same as last week</string>
+    <string name="widget_week_top_game">Most Played: %1$s</string>
+    <string name="widget_friends_label">Online Now</string>
+    <string name="widget_friends_description">Shows the online status of people you follow.</string>
+    <string name="widget_friends_loading">Loading…</string>
+    <string name="widget_friends_empty">Follow people on FrogLog to see them here</string>
+    <string name="widget_friends_count">%1$d online</string>
+    <string name="widget_friends_last_seen">Last seen %1$s</string>
+    <string name="widget_friends_never_seen">Offline</string>
+    <string name="widget_ago_now">just now</string>
+    <string name="widget_ago_minutes">%1$dm ago</string>
+    <string name="widget_ago_hours">%1$dh ago</string>
+    <string name="widget_ago_days">%1$dd ago</string>
+    <string name="widget_friends_unknown_game">In a game</string>
+    <plurals name="widget_week_sessions">
+        <item quantity="one">%d session</item>
+        <item quantity="other">%d sessions</item>
+    </plurals>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Refreshes every 30 minutes, Android's shortest; the site also refreshes it whenever the session changes. -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/widget_quick_session_description"
+    android:configure="uk.co.froglog.app.widgets.WidgetThemeActivity"
+    android:widgetFeatures="reconfigurable"
+    android:initialLayout="@layout/widget_quick_session"
+    android:minWidth="250dp"
+    android:minHeight="40dp"
+    android:minResizeWidth="110dp"
+    android:minResizeHeight="40dp"
+    android:maxResizeWidth="250dp"
+    android:maxResizeHeight="110dp"
+    android:previewImage="@drawable/widget_quick_session_preview"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellWidth="4"
+    android:targetCellHeight="1"
+    android:updatePeriodMillis="1800000"
+    android:widgetCategory="home_screen" />

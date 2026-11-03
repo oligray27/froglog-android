@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A button: the same solid secondary as the count badge (widget_badge), tinted with the theme's secondary colour -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/widget_secondary" />
+    <corners android:radius="8dp" />
+</shape>

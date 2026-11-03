@@ -1,0 +1,19 @@
+node_modules/
+android/build/
+android/app/build/
+android/.gradle/
+*.apk
+dist/
+
+# The release key and where it is, which must never be committed
+android/keystore.properties
+*.keystore
+*.jks
+
+# Firebase project config. It is baked into the APK anyway, but it is not for the repo
+android/app/google-services.json
+android/app/src/dev/google-services.json
+
+# FrogLog Dev's server address, which scripts/dev-app.js writes for this PC
+android/app/src/dev/assets/capacitor.config.json
+android/local.properties

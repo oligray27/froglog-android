@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- The dev server is plain http. The live app stays https only. -->
+    <application android:usesCleartextTraffic="true">
+        <!-- Lets adb put a made-up session in the Quick Session widget, for looking at each state. Not in the live build. -->
+        <receiver
+            android:name=".widgets.DebugSessionReceiver"
+            android:exported="true" />
+    </application>
+</manifest>

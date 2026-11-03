@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- QuickSessionWidget, in the shadcn dark style (tokens in widget_colors.xml): card, header, an icon tile, the text and outline buttons.
+     The default text is what the widget picker shows as its preview. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_card"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/widget_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/widget_header_logo"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_notification" />
+
+        <TextView
+            android:id="@+id/widget_header_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:text="@string/widget_title_current_activity"
+            android:textColor="@color/widget_card_foreground"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/widget_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- The logo, as tall as the three text lines beside it (resized in Java for the compact layout). -->
+        <ImageView
+            android:id="@+id/widget_logo"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginEnd="12dp"
+            android:importantForAccessibility="no"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_notification" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/widget_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif"
+                android:maxLines="1"
+                android:text="@string/widget_idle_title"
+                android:textColor="@color/widget_card_foreground"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/widget_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/widget_card_foreground"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/widget_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/widget_idle_hint"
+                android:textColor="@color/widget_muted_foreground"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/widget_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/widget_muted_foreground"
+                android:textSize="21sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- Where the session is tracked: the stopwatch for a Quick Session, the lilypad for LilyPad. Hidden when nothing is running. -->
+        <ImageView
+            android:id="@+id/widget_app_icon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/widget_button"
+            android:importantForAccessibility="no"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_widget_stopwatch"
+            android:visibility="gone" />
+
+        <!-- Between the platform tile and the buttons you can press. Only a FrameLayout, since a plain View isn’t allowed in a widget. -->
+        <FrameLayout
+            android:id="@+id/widget_divider"
+            android:layout_width="1dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="20dp"
+            android:background="@color/widget_input"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/widget_actions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/widget_primary"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/widget_button"
+                android:contentDescription="@string/widget_pause"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_widget_pause" />
+
+            <ImageView
+                android:id="@+id/widget_stop"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/widget_button"
+                android:contentDescription="@string/widget_stop"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_widget_stop"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

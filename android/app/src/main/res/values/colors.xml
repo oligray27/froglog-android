@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- What the app shows before the site has loaded: the splash screen and the system bars around it. Black, like the icon. -->
+    <color name="splash_background">#000000</color>
+</resources>

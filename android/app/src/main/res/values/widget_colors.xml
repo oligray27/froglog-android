@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- shadcn/ui neutral dark tokens. The widgets are always dark, whatever the phone's setting. -->
+    <color name="widget_card">#171717</color>
+    <color name="widget_card_foreground">#FAFAFA</color>
+    <color name="widget_muted_foreground">#A3A3A3</color>
+    <color name="widget_secondary">#262626</color>
+    <color name="widget_secondary_foreground">#FAFAFA</color>
+    <color name="widget_primary">#E5E5E5</color>
+    <color name="widget_primary_foreground">#171717</color>
+    <!-- Outline buttons in dark mode: border-input (white at 15%) and bg-input/30 -->
+    <color name="widget_input">#26FFFFFF</color>
+    <color name="widget_input_fill">#0DFFFFFF</color>
+    <!-- Icons on the unfilled buttons: shadcn’s destructive red for stop, a green for play -->
+    <color name="widget_play">#4ADE80</color>
+    <color name="widget_stop">#FF6467</color>
+    <color name="widget_paused">#FBBF24</color>
+</resources>

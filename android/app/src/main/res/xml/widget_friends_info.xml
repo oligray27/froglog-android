@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Kept current by silent pushes from the backend; the 30-minute refresh catches anything missed. -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/widget_friends_description"
+    android:configure="uk.co.froglog.app.widgets.WidgetThemeActivity"
+    android:widgetFeatures="reconfigurable"
+    android:initialLayout="@layout/widget_friends"
+    android:minWidth="180dp"
+    android:minHeight="170dp"
+    android:minResizeWidth="180dp"
+    android:minResizeHeight="110dp"
+    android:previewImage="@drawable/widget_friends_preview"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellWidth="3"
+    android:targetCellHeight="3"
+    android:updatePeriodMillis="1800000"
+    android:widgetCategory="home_screen" />
