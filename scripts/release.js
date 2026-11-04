@@ -70,10 +70,11 @@ function main() {
     return
   }
   run('git', ['add', '-A'])
-  run('git', ['commit', '-m', `Release ${version}`])
+  // Each argument is run through a shell, which splits on spaces, so the ones with spaces are quoted.
+  run('git', ['commit', '-m', `"Release ${version}"`])
   run('git', ['tag', `v${version}`])
   run('git', ['push', 'origin', 'HEAD', '--tags'])
-  run('gh', ['release', 'create', `v${version}`, apk, '--title', `FrogLog ${version}`, '--generate-notes'])
+  run('gh', ['release', 'create', `v${version}`, apk, '--title', `"FrogLog ${version}"`, '--generate-notes'])
 }
 
 try {
