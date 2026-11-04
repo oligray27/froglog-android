@@ -18,6 +18,8 @@ import java.util.TimeZone;
  */
 public class DebugSessionReceiver extends BroadcastReceiver {
     private static final String GAME = "Bayonetta";
+    // A real cover, so the widget has something to download.
+    private static final String COVER = "https://shared.steamstatic.com/store_item_assets/steam/apps/301640/library_600x900.jpg";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -29,10 +31,14 @@ public class DebugSessionReceiver extends BroadcastReceiver {
                 FriendsWidget.clearDebugState(context);
                 return;
             }
+            if ("stale".equals(type)) {
+                WidgetStore.markStale(context);
+                return;
+            }
             if (type.startsWith("theme_")) {
                 String choice = type.substring("theme_".length());
                 android.appwidget.AppWidgetManager manager = android.appwidget.AppWidgetManager.getInstance(context);
-                for (Class<?> provider : new Class<?>[] { QuickSessionWidget.class, ThisWeekWidget.class, FriendsWidget.class }) {
+                for (Class<?> provider : new Class<?>[] { QuickSessionWidget.class, ThisWeekWidget.class, FriendsWidget.class, QuickSessionFlexWidget.class, ThisWeekFlexWidget.class, FriendsFlexWidget.class }) {
                     for (int id : manager.getAppWidgetIds(new android.content.ComponentName(context, provider))) WidgetTheme.setChoice(context, id, choice);
                 }
                 WidgetSupport.refreshAll(context);
@@ -59,6 +65,8 @@ public class DebugSessionReceiver extends BroadcastReceiver {
                     break;
                 default: return;
             }
+            if (state.length() > 0) state.put("cover_url", COVER);
+            if (last.length() > 0) last.put("cover_url", COVER);
             QuickSessionWidget.showDebugState(context, state.toString(), last.length() == 0 ? null : last.toString());
         } catch (Exception ignored) {
             // A debug helper: nothing to report to.

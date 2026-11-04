@@ -46,11 +46,12 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <!-- The logo, as tall as the three text lines beside it (resized in Java for the compact layout). -->
+        <!-- The cover (or the logo): as tall as the space it has, and as wide as its shape makes it. -->
         <ImageView
             android:id="@+id/widget_logo"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
             android:layout_marginEnd="12dp"
             android:importantForAccessibility="no"
             android:scaleType="fitCenter"

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -30,6 +31,9 @@ public class FriendsWidget extends AppWidgetProvider {
     private static final String ACTION_REFRESH = "uk.co.froglog.app.widgets.FRIENDS_REFRESH";
     private static final String ACTION_TICK = "uk.co.froglog.app.widgets.FRIENDS_TICK";
     static final String CACHE_FRIENDS = "friends";
+    // After this long without a fresh answer, the next minute alarm fetches one instead of only redrawing.
+    static final long STALE_MS = 10 * 60 * 1000;
+    private static final String TAG = "FrogLogWidgets";
     // While this is set (only the dev build's DebugSessionReceiver sets it) the widget shows its cached list and asks the server nothing.
     private static final String CACHE_DEBUG_HOLD = "friends_debug_hold";
 
@@ -60,10 +64,17 @@ public class FriendsWidget extends AppWidgetProvider {
         WidgetSupport.WORKER.execute(() -> {
             try {
                 if (ACTION_TICK.equals(action)) {
-                    // Only the clocks moved, so redraw from the cached list.
-                    render(app, WidgetSupport.parse(WidgetStore.cache(app, CACHE_FRIENDS)), WidgetStore.isSignedIn(app));
+                    boolean held = WidgetStore.cache(app, CACHE_DEBUG_HOLD) != null;
+                    if (!held && WidgetStore.isSignedIn(app) && WidgetStore.cacheAge(app, CACHE_FRIENDS) > STALE_MS) {
+                        // Nothing else has refreshed it for a while, so this is the refresh.
+                        Log.i(TAG, "friends: tick found the list " + WidgetStore.cacheAge(app, CACHE_FRIENDS) / 60_000 + "m old, fetching");
+                        fetchAndRender(app);
+                    } else {
+                        timesMoved(app);
+                    }
                     return;
                 }
+                Log.i(TAG, "friends: " + action);
                 fetchAndRender(app);
             } finally {
                 pending.finish();
@@ -78,7 +89,9 @@ public class FriendsWidget extends AppWidgetProvider {
 
     @Override
     public void onDisabled(Context context) {
-        ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE)).cancel(tickIntent(context));
+        if (WidgetSupport.ids(context, FriendsWidget.class, FriendsFlexWidget.class).length == 0) {
+            ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE)).cancel(tickIntent(context));
+        }
         WidgetSupport.lastOneRemoved(context);
     }
 
@@ -94,6 +107,7 @@ public class FriendsWidget extends AppWidgetProvider {
         WidgetDevices.register(context);
         try {
             FroglogApi.Response friends = FroglogApi.get(context, "/api/widgets/friends");
+            Log.i(TAG, "friends: fetched, HTTP " + friends.status);
             if (friends.status == 401) {
                 WidgetStore.clearLogin(context);
                 render(context, null, false);
@@ -102,18 +116,32 @@ public class FriendsWidget extends AppWidgetProvider {
             if (friends.ok()) WidgetStore.putCache(context, CACHE_FRIENDS, friends.body.toString());
         } catch (Exception offline) {
             // Falls through to the cached list.
+            Log.w(TAG, "friends: fetch failed, showing the saved list: " + offline);
         }
         render(context, WidgetSupport.parse(WidgetStore.cache(context, CACHE_FRIENDS)), true);
     }
 
     private static void render(Context context, JSONObject data, boolean signedIn) {
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
-        int[] ids = manager.getAppWidgetIds(new ComponentName(context, FriendsWidget.class));
+        int[] ids = WidgetSupport.ids(context, FriendsWidget.class, FriendsFlexWidget.class);
         if (ids.length == 0) return;
-        for (int id : ids) manager.updateAppWidget(id, build(context, data, signedIn, id));
+        for (int id : ids) {
+            RemoteViews views = build(context, data, signedIn, id);
+            if (WidgetSupport.isCover(context, id)) views.setPendingIntentTemplate(R.id.friends_list, WidgetSupport.noTapTemplate(context, FriendsFlexWidget.class));
+            manager.updateAppWidget(id, WidgetSupport.squareOnCover(context, id, views, R.id.friends_root));
+        }
         // The list reads the cache itself, so tell it to look again (this is also how the times move on).
         manager.notifyAppWidgetViewDataChanged(ids, R.id.friends_list);
         scheduleTick(context, signedIn ? data : null);
+    }
+
+    // Only the clocks moved: the list is told to look again, and the header, which has not changed, is left alone.
+    private static void timesMoved(Context context) {
+        AppWidgetManager manager = AppWidgetManager.getInstance(context);
+        int[] ids = WidgetSupport.ids(context, FriendsWidget.class, FriendsFlexWidget.class);
+        if (ids.length == 0) return;
+        manager.notifyAppWidgetViewDataChanged(ids, R.id.friends_list);
+        scheduleTick(context, WidgetSupport.parse(WidgetStore.cache(context, CACHE_FRIENDS)));
     }
 
     private static PendingIntent tickIntent(Context context) {
@@ -121,23 +149,19 @@ public class FriendsWidget extends AppWidgetProvider {
         return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
-    // Timers and last-seen times are text ("1m", "1h 27m", "5m ago"), so redraw when the soonest one reaches its next minute.
+    // Timers and last-seen times are text ("1m", "1h 27m", "5m ago"), so the list is redrawn once a minute, on the minute
+    // (every friend has their own minute, and an alarm for each of them was a dozen wake-ups a minute). That alarm is also
+    // what notices the list is stale and fetches. Nothing is scheduled with no widget showing a list.
     private static void scheduleTick(Context context, JSONObject data) {
         AlarmManager alarms = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent tick = tickIntent(context);
         JSONArray friends = data == null ? null : data.optJSONArray("friends");
-        long soonest = Long.MAX_VALUE;
-        for (int i = 0; friends != null && i < friends.length(); i++) {
-            JSONObject friend = friends.optJSONObject(i);
-            boolean online = friend.optBoolean("online", true);
-            long age = online ? elapsedMs(friend) : sinceSeen(friend);
-            if (age >= 0 && (!online || friend.isNull("paused_at"))) soonest = Math.min(soonest, 60_000 - age % 60_000);
-        }
-        if (soonest == Long.MAX_VALUE) {
+        if (friends == null || friends.length() == 0) {
             alarms.cancel(tick);
             return;
         }
-        alarms.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + soonest + 500, tick);
+        long untilNextMinute = 60_000 - System.currentTimeMillis() % 60_000;
+        alarms.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + untilNextMinute + 500, tick);
     }
 
     // How long ago they were last seen; -1 if never.

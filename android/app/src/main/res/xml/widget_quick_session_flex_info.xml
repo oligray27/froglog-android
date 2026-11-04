@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The Flex Window version: the size Samsung gives for the Flip5's cover screen, and the keyguard category it needs. -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="uk.co.froglog.app.widgets.WidgetThemeActivity"
+    android:description="@string/widget_quick_session_description"
+    android:initialLayout="@layout/widget_quick_session"
+    android:minWidth="352dp"
+    android:minHeight="339dp"
+    android:previewLayout="@layout/widget_quick_session_cover_preview_layout"
+    android:previewImage="@drawable/widget_quick_session_cover_preview"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="1800000"
+    android:widgetCategory="keyguard"
+    android:widgetFeatures="reconfigurable" />

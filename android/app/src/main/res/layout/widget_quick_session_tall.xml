@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- QuickSessionWidget at two rows or taller: the same views and ids as widget_quick_session, but the platform tile and the buttons sit
+     on the timer's row at the bottom, so the game's name above has the whole width to itself (and can take two lines). One row uses widget_quick_session. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_card"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/widget_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/widget_header_logo"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_notification" />
+
+        <TextView
+            android:id="@+id/widget_header_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:text="@string/widget_title_current_activity"
+            android:textColor="@color/widget_card_foreground"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/widget_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- The cover (or the logo): as tall as the space it has, and as wide as its shape makes it. -->
+        <ImageView
+            android:id="@+id/widget_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="12dp"
+            android:importantForAccessibility="no"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_notification" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Takes the free height, so the title, the time and the buttons all sit at the bottom, level with the cover's bottom edge. -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <!-- The live (or paused) dot and "In Game:" / "Paused:" on a row of their own, above the game's name. -->
+            <TextView
+                android:id="@+id/widget_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:fontFamily="sans-serif"
+                android:maxLines="1"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/widget_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif"
+                android:maxLines="2"
+                android:text="@string/widget_idle_title"
+                android:textColor="@color/widget_card_foreground"
+                android:textSize="21sp" />
+
+            <TextView
+                android:id="@+id/widget_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@string/widget_idle_hint"
+                android:textColor="@color/widget_muted_foreground"
+                android:textSize="21sp" />
+
+
+            <TextView
+                android:id="@+id/widget_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/widget_muted_foreground"
+                android:textSize="21sp"
+                android:visibility="gone" />
+
+            <!-- The time on the left, the platform tile, a divider and the buttons on the right. -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/widget_timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="56dp"
+                    android:gravity="center_vertical"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/widget_card_foreground"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/widget_app_icon"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/widget_button"
+                    android:importantForAccessibility="no"
+                    android:padding="12dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_widget_stopwatch"
+                    android:visibility="gone" />
+
+                <!-- Only a FrameLayout, since a plain View isn’t allowed in a widget. -->
+                <FrameLayout
+                    android:id="@+id/widget_divider"
+                    android:layout_width="1dp"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="12dp"
+                    android:background="@color/widget_input"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/widget_actions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/widget_primary"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/widget_button"
+                        android:contentDescription="@string/widget_pause"
+                        android:padding="8dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_widget_pause" />
+
+                    <ImageView
+                        android:id="@+id/widget_stop"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/widget_button"
+                        android:contentDescription="@string/widget_stop"
+                        android:padding="8dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_widget_stop"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -15,7 +15,8 @@ const path = require('path')
 const { spawnSync } = require('child_process')
 
 // The first ten are for Current Activity, the last four for Online Now.
-const STATES = ['idle', 'manual', 'paused', 'lilypad', 'lilypad_paused', 'lilypad_view', 'steam', 'psn', 'xbox', 'switch', 'friends', 'friends_three', 'friends_one', 'friends_none']
+// stale makes the saved answers look old (run clear first, since a made-up state holds the widgets), so the next minute alarm fetches.
+const STATES = ['stale', 'idle', 'manual', 'paused', 'lilypad', 'lilypad_paused', 'lilypad_view', 'steam', 'psn', 'xbox', 'switch', 'friends', 'friends_three', 'friends_one', 'friends_none']
 // Every widget's theme: theme_<id> for the site's themes (from utils/themes.js), or theme_wallpaper.
 const THEMES = [...fs.readFileSync(path.join(__dirname, '../../frontend/src/utils/themes.js'), 'utf8').matchAll(/id: '([^']+)', label/g)].map((m) => m[1])
 const COMPONENT = 'uk.co.froglog.app.dev/uk.co.froglog.app.widgets.DebugSessionReceiver'

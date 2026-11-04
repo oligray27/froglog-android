@@ -43,7 +43,20 @@ public final class WidgetStore {
     }
 
     public static void putCache(Context context, String key, String json) {
-        prefs(context).edit().putString("cache_" + key, json).apply();
+        prefs(context).edit().putString("cache_" + key, json).putLong("cache_at_" + key, System.currentTimeMillis()).apply();
+    }
+
+    // For testing: makes every saved answer look old, so the next minute alarm fetches fresh data.
+    public static void markStale(Context context) {
+        SharedPreferences.Editor editor = prefs(context).edit();
+        for (String key : prefs(context).getAll().keySet()) if (key.startsWith("cache_at_")) editor.putLong(key, 1L);
+        editor.apply();
+    }
+
+    // Milliseconds since this answer was stored, or a very large number if it never was.
+    public static long cacheAge(Context context, String key) {
+        long stored = prefs(context).getLong("cache_at_" + key, 0);
+        return stored == 0 ? Long.MAX_VALUE : System.currentTimeMillis() - stored;
     }
 
     public static String cache(Context context, String key) {

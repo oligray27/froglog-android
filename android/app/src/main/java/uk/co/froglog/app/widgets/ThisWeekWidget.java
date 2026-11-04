@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
@@ -36,6 +37,7 @@ import uk.co.froglog.app.R;
 public class ThisWeekWidget extends AppWidgetProvider {
     private static final String ACTION_REFRESH = "uk.co.froglog.app.widgets.THIS_WEEK_REFRESH";
     private static final String CACHE_WEEK = "this_week";
+    private static final String TAG = "FrogLogWidgets";
     private static final String[] DAY_LETTERS = { "S", "M", "T", "W", "T", "F", "S" };
 
     static void refresh(Context context) {
@@ -78,6 +80,7 @@ public class ThisWeekWidget extends AppWidgetProvider {
         WidgetDevices.register(context);
         try {
             FroglogApi.Response week = FroglogApi.get(context, "/api/widgets/week");
+            Log.i(TAG, "week: fetched, HTTP " + week.status);
             if (week.status == 401) {
                 WidgetStore.clearLogin(context);
                 render(context, null, false);
@@ -86,16 +89,24 @@ public class ThisWeekWidget extends AppWidgetProvider {
             if (week.ok()) WidgetStore.putCache(context, CACHE_WEEK, week.body.toString());
         } catch (Exception offline) {
             // Falls through to the cached week.
+            Log.w(TAG, "week: fetch failed, showing the saved week: " + offline);
         }
         render(context, WidgetSupport.parse(WidgetStore.cache(context, CACHE_WEEK)), true);
     }
 
     private static void render(Context context, JSONObject week, boolean signedIn) {
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
-        int[] ids = manager.getAppWidgetIds(new ComponentName(context, ThisWeekWidget.class));
+        int[] ids = WidgetSupport.ids(context, ThisWeekWidget.class, ThisWeekFlexWidget.class);
         for (int id : ids) {
             float[] chart = chartSizeDp(context, manager.getAppWidgetOptions(id));
-            manager.updateAppWidget(id, build(context, week, signedIn, chart[0], chart[1], WidgetTheme.forWidget(context, id)));
+            // The cover screen's bottom corners curve in, so the chart stops higher up there.
+            boolean cover = WidgetSupport.isCover(context, id);
+            if (cover) chart[1] = Math.max(CHART_HEIGHT_DP, chart[1] - WidgetSupport.COVER_EXTRA_BOTTOM_DP);
+            RemoteViews views = build(context, week, signedIn, chart[0], chart[1], WidgetTheme.forWidget(context, id), cover);
+            float density = context.getResources().getDisplayMetrics().density;
+            int side = Math.round(16 * density);
+            views.setViewPadding(R.id.week_root, side, side, side, Math.round((16 + (cover ? WidgetSupport.COVER_EXTRA_BOTTOM_DP : 0)) * density));
+            manager.updateAppWidget(id, WidgetSupport.squareOnCover(context, id, views, R.id.week_root));
         }
     }
 
@@ -115,7 +126,7 @@ public class ThisWeekWidget extends AppWidgetProvider {
         return new float[] { Math.max(120, width - 32), Math.max(CHART_HEIGHT_DP, height - 152) };
     }
 
-    private static RemoteViews build(Context context, JSONObject week, boolean signedIn, float chartWidthDp, float chartHeightDp, WidgetTheme theme) {
+    private static RemoteViews build(Context context, JSONObject week, boolean signedIn, float chartWidthDp, float chartHeightDp, WidgetTheme theme, boolean cover) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_this_week);
         theme.card(views, R.id.week_root);
         theme.icon(views, R.id.week_logo, theme.foreground);
@@ -124,6 +135,7 @@ public class ThisWeekWidget extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.week_root, WidgetSupport.openApp(context, "/stats/personal"));
         views.setViewVisibility(R.id.week_chart, View.GONE);
         views.setTextViewText(R.id.week_delta, "");
+        views.setViewVisibility(R.id.week_delta, View.VISIBLE);
 
         if (!signedIn || week == null) {
             views.setTextViewText(R.id.week_hours, "–");
@@ -134,10 +146,10 @@ public class ThisWeekWidget extends AppWidgetProvider {
         double hours = week.optDouble("hours", 0);
         double prev = week.optDouble("prevHours", 0);
         views.setTextViewText(R.id.week_hours, formatHours(hours));
-        views.setTextViewText(R.id.week_delta, deltaText(context, hours, prev));
+        views.setTextViewText(R.id.week_delta, deltaText(context, hours, prev, cover));
         int sessions = week.optInt("sessions", 0);
         String summary = context.getResources().getQuantityString(R.plurals.widget_week_sessions, sessions, sessions);
-        JSONObject top = week.optJSONObject("topGame");
+        JSONObject top = cover ? null : week.optJSONObject("topGame");
         SpannableString text;
         if (top != null) {
             // The game’s name is bold; "Most Played:" and the session count are not.
@@ -158,9 +170,11 @@ public class ThisWeekWidget extends AppWidgetProvider {
         return views;
     }
 
-    private static String deltaText(Context context, double hours, double prev) {
+    // The cover screen keeps it short: the arrow and the difference ("▲ 2.5h"), without "more than last week".
+    private static String deltaText(Context context, double hours, double prev, boolean cover) {
         double change = Math.round((hours - prev) * 10) / 10.0;
         if (change == 0) return context.getString(R.string.widget_week_same);
+        if (cover) return (change > 0 ? "▲ " : "▼ ") + formatHours(Math.abs(change));
         return context.getString(change > 0 ? R.string.widget_week_up : R.string.widget_week_down, formatHours(Math.abs(change)));
     }
 

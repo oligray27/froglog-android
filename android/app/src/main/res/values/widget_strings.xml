@@ -11,6 +11,10 @@
     <string name="widget_idle_hint">Tap to open your games</string>
     <string name="widget_last_session">Last Session: %1$s</string>
     <string name="widget_last_duration">Duration: %1$s</string>
+    <string name="widget_stop_question">Stop this session?</string>
+    <string name="widget_save">Save</string>
+    <string name="widget_discard">Discard</string>
+    <string name="widget_cancel">Cancel</string>
     <string name="widget_in_game">In Game: %1$s</string>
     <string name="widget_paused_game">Paused: %1$s</string>
     <string name="widget_unknown_game">Untitled game</string>

@@ -22,10 +22,9 @@ final class WidgetDevices {
     private WidgetDevices() {}
 
     static boolean anyPlaced(Context context) {
-        AppWidgetManager manager = AppWidgetManager.getInstance(context);
-        return manager.getAppWidgetIds(new ComponentName(context, QuickSessionWidget.class)).length > 0
-            || manager.getAppWidgetIds(new ComponentName(context, ThisWeekWidget.class)).length > 0
-            || manager.getAppWidgetIds(new ComponentName(context, FriendsWidget.class)).length > 0;
+        return WidgetSupport.ids(context, QuickSessionWidget.class, QuickSessionFlexWidget.class).length > 0
+            || WidgetSupport.ids(context, ThisWeekWidget.class, ThisWeekFlexWidget.class).length > 0
+            || WidgetSupport.ids(context, FriendsWidget.class, FriendsFlexWidget.class).length > 0;
     }
 
     // Cheap when already registered, so every widget refresh calls it.

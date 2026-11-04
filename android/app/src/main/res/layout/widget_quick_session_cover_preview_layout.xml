@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The picker's preview of QuickSessionFlexWidget (a running session; made up). The real thing is
+     QuickSessionFlexWidget on the cover screen, which is close to square: the title bar, the game's text, then the buttons
+     along the bottom row. It has the same ids as widget_quick_session, so QuickSessionWidget draws it the same way. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_card_square"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="30dp">
+
+    <LinearLayout
+        android:id="@+id/widget_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/widget_header_logo"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_notification" />
+
+        <TextView
+            android:id="@+id/widget_header_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:text="@string/widget_title_current_activity"
+            android:textColor="@color/widget_card_foreground"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/widget_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="1"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/widget_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:layout_marginEnd="12dp"
+            android:importantForAccessibility="no"
+            android:scaleType="fitCenter"
+            android:src="@drawable/widget_preview_nier" />
+
+        <!-- The text column is as tall as the art. The spacer above pushes the text to the bottom, level with the art's bottom; when
+             nothing is running there is no art, and the spacer below shares the room, so the text sits in the middle. -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/widget_text_spacer_top"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <!-- "In Game:" or "Paused:" in green or amber, above the game's name. Only the cover layout has it. -->
+            <TextView
+                android:id="@+id/widget_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:maxLines="1"
+                android:drawableStart="@drawable/ic_widget_live"
+                android:text="In Game:"
+                android:textColor="@color/widget_card_foreground"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/widget_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif"
+                android:maxLines="2"
+                android:text="Nier:Automata"
+                android:textColor="@color/widget_card_foreground"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/widget_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/widget_card_foreground"
+                android:textSize="28sp"
+                android:text="1h 24m"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/widget_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@string/widget_idle_hint"
+                android:textColor="@color/widget_muted_foreground"
+                android:textSize="21sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/widget_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/widget_muted_foreground"
+                android:textSize="21sp"
+                android:visibility="gone" />
+
+            <FrameLayout
+                android:id="@+id/widget_text_spacer_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Where the session is tracked comes first, then the controls at the right edge. -->
+    <LinearLayout
+        android:id="@+id/widget_controls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/widget_app_icon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/widget_button"
+            android:importantForAccessibility="no"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_widget_stopwatch" />
+
+        <!-- Takes the space between the platform icon and the buttons. There is no divider on the cover screen; QuickSessionWidget's
+             changes to widget_divider do nothing here. Only a FrameLayout, since a plain View isn’t allowed in a widget. -->
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:id="@+id/widget_actions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/widget_primary"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/widget_button"
+                android:contentDescription="@string/widget_pause"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_widget_pause" />
+
+            <ImageView
+                android:id="@+id/widget_stop"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/widget_button"
+                android:contentDescription="@string/widget_stop"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_widget_stop" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Stopping a session asks here, since the cover screen can't open the app: save it as it is, discard it, or carry on. -->
+    <LinearLayout
+        android:id="@+id/widget_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/widget_confirm_save"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:background="@drawable/widget_button"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/widget_save"
+            android:textColor="@color/widget_card_foreground"
+            android:textSize="18sp" />
+
+        <FrameLayout
+            android:layout_width="8dp"
+            android:layout_height="1dp" />
+
+        <TextView
+            android:id="@+id/widget_confirm_discard"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:background="@drawable/widget_button"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/widget_discard"
+            android:textColor="@color/widget_card_foreground"
+            android:textSize="18sp" />
+
+        <FrameLayout
+            android:layout_width="8dp"
+            android:layout_height="1dp" />
+
+        <TextView
+            android:id="@+id/widget_confirm_cancel"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:background="@drawable/widget_button"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/widget_cancel"
+            android:textColor="@color/widget_card_foreground"
+            android:textSize="18sp" />
+    </LinearLayout>
+</LinearLayout>
