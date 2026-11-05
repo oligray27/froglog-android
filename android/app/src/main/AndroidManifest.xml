@@ -152,6 +152,9 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Finding and talking to LilyPad on the local network (remote launch). -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- navigator.vibrate in the WebView, used by the completion fireworks -->
     <uses-permission android:name="android.permission.VIBRATE" />
