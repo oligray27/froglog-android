@@ -24,7 +24,9 @@ final class WidgetDevices {
     static boolean anyPlaced(Context context) {
         return WidgetSupport.ids(context, QuickSessionWidget.class, QuickSessionFlexWidget.class).length > 0
             || WidgetSupport.ids(context, ThisWeekWidget.class, ThisWeekFlexWidget.class).length > 0
-            || WidgetSupport.ids(context, FriendsWidget.class, FriendsFlexWidget.class).length > 0;
+            || WidgetSupport.ids(context, FriendsWidget.class, FriendsFlexWidget.class).length > 0
+            // Remote Start's play buttons follow your own session, which the same silent pushes report.
+            || RemoteStartWidget.ids(context).length > 0;
     }
 
     // Cheap when already registered, so every widget refresh calls it.

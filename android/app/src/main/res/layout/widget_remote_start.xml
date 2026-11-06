@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- RemoteStartWidget, in the shadcn style shared by the widgets: the frog, "Remote Start" and the PC's name, a line for a launch in progress,
+     then the recent games the PC can start, scrolling. Only views RemoteViews allows: a plain View stops the widget loading. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/remote_start_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_card"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/remote_start_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/remote_start_logo"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_notification" />
+
+        <TextView
+            android:id="@+id/remote_start_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:text="@string/widget_title_remote_start"
+            android:textColor="@color/widget_card_foreground"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/remote_start_pc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/widget_badge"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:maxWidth="160dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:textColor="@color/widget_secondary_foreground"
+            android:textSize="18sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/remote_start_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/widget_muted_foreground"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+    <!-- The list scrolls. The empty message is behind it and shows when there is nothing to start. -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/remote_start_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
+
+        <TextView
+            android:id="@+id/remote_start_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/widget_remote_start_description"
+            android:textColor="@color/widget_muted_foreground"
+            android:textSize="21sp" />
+    </FrameLayout>
+</LinearLayout>

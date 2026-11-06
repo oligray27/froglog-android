@@ -412,30 +412,16 @@ public class FrogLogRemotePlugin extends Plugin {
             return;
         }
         io.execute(() -> {
-            String host = device.optString("host");
-            int port = device.optInt("port", DEFAULT_PORT);
             try {
                 RemoteClient.Response response;
                 try {
-                    response = RemoteClient.request(host, port, method, path, body, id, readTimeoutMs);
+                    // Finds it again on the network once if it has moved (a new address after a router restart).
+                    response = RemoteBridge.request(getContext(), device, method, path, body, readTimeoutMs);
                 } catch (java.net.SocketTimeoutException silent) {
                     // Connected, but nothing came back in time (nobody answered a prompt on the PC): the PC is there, so it is not looked for again.
                     if (silent.getMessage() == null || !silent.getMessage().contains("Read timed out")) throw silent;
                     call.resolve(new JSObject().put("ok", false).put("status", 0).put("error", "no_answer"));
                     return;
-                } catch (java.io.IOException unreachable) {
-                    // It may have moved (a new address after a router restart): look for it once.
-                    JSONObject moved = null;
-                    JSONArray found = RemoteDiscovery.discover(getContext(), 2500);
-                    for (int i = 0; i < found.length(); i++) {
-                        JSONObject candidate = found.getJSONObject(i);
-                        if (id.startsWith(candidate.optString("fp")) && !candidate.optString("fp").isEmpty()) moved = candidate;
-                    }
-                    if (moved == null) throw unreachable;
-                    host = moved.optString("host");
-                    port = moved.optInt("port", DEFAULT_PORT);
-                    RemoteDevices.save(getContext(), id, device.optString("name"), host, port);
-                    response = RemoteClient.request(host, port, method, path, body, id, readTimeoutMs);
                 }
                 JSObject result = toJs(response.body);
                 result.put("status", response.status);

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Refreshed when placed, when the app opens, after each launch, and every 30 minutes. The preview is a picture, like the others. -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/widget_remote_start_description"
+    android:configure="uk.co.froglog.app.widgets.WidgetThemeActivity"
+    android:widgetFeatures="reconfigurable"
+    android:initialLayout="@layout/widget_remote_start"
+    android:previewImage="@drawable/widget_remote_start_preview"
+    android:minWidth="180dp"
+    android:minHeight="170dp"
+    android:minResizeWidth="180dp"
+    android:minResizeHeight="110dp"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellWidth="3"
+    android:targetCellHeight="3"
+    android:updatePeriodMillis="1800000"
+    android:widgetCategory="home_screen" />

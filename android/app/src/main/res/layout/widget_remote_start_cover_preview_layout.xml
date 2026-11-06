@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The picker's preview of the cover screen Remote Start (three made-up recent games on a made-up PC). Based on widget_remote_start.xml
+     and widget_remote_start_item.xml. Only views RemoteViews allows: a plain View stops the widget loading. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/remote_start_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_card_square"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="30dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_notification" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:text="@string/widget_title_remote_start"
+            android:textColor="@color/widget_card_foreground"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/widget_badge"
+            android:fontFamily="sans-serif-medium"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:text="Gaming PC"
+            android:textColor="@color/widget_secondary_foreground"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="12dp">
+
+                <ImageView
+                    android:layout_width="42dp"
+                    android:layout_height="56dp"
+                    android:importantForAccessibility="no"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/widget_preview_nier" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="sans-serif-medium"
+                        android:maxLines="1"
+                        android:text="Nier:Automata"
+                        android:textColor="@color/widget_card_foreground"
+                        android:textSize="21sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="Played today"
+                        android:textColor="@color/widget_muted_foreground"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="12dp"
+                    android:background="@drawable/widget_button"
+                    android:importantForAccessibility="no"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_widget_play" />
+            </LinearLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="12dp"
+                android:background="@color/widget_input" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="12dp">
+
+                <ImageView
+                    android:layout_width="42dp"
+                    android:layout_height="56dp"
+                    android:importantForAccessibility="no"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/widget_preview_hades" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="sans-serif-medium"
+                        android:maxLines="1"
+                        android:text="Hades"
+                        android:textColor="@color/widget_card_foreground"
+                        android:textSize="21sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="Played yesterday"
+                        android:textColor="@color/widget_muted_foreground"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="12dp"
+                    android:background="@drawable/widget_button"
+                    android:importantForAccessibility="no"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_widget_play" />
+            </LinearLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="12dp"
+                android:background="@color/widget_input" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="12dp">
+
+                <ImageView
+                    android:layout_width="42dp"
+                    android:layout_height="56dp"
+                    android:importantForAccessibility="no"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/widget_preview_elden_ring" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="sans-serif-medium"
+                        android:maxLines="1"
+                        android:text="Elden Ring"
+                        android:textColor="@color/widget_card_foreground"
+                        android:textSize="21sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="Played 3 days ago"
+                        android:textColor="@color/widget_muted_foreground"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="12dp"
+                    android:background="@drawable/widget_button"
+                    android:importantForAccessibility="no"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_widget_play" />
+            </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

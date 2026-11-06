@@ -25,6 +25,7 @@ final class WidgetSupport {
         QuickSessionWidget.refresh(context);
         ThisWeekWidget.refresh(context);
         FriendsWidget.refresh(context);
+        RemoteStartWidget.refresh(context);
     }
 
     // The ids of a widget on the home screen and its cover screen twin, which are drawn together.

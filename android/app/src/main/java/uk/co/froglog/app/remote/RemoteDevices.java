@@ -17,11 +17,19 @@ final class RemoteDevices {
     // The FrogLog account the site says is signed in. Linked PCs belong to it: each account in the app has its own list, and signing in as
     // someone else must neither show another account's PCs nor start games on them (LilyPad would refuse, being signed in as the other user).
     private static volatile String account = "";
+    private static final String LAST_ACCOUNT_KEY = "last_account";
+
+    /** The last account the site gave, or "" if it never has. */
+    static String lastAccount(Context context) {
+        return prefs(context).getString(LAST_ACCOUNT_KEY, "");
+    }
 
     /** Sets whose list the calls that follow read and write. Called at the start of every plugin call with the site's account. */
     static synchronized void use(Context context, String username) {
         account = username == null ? "" : username.trim().toLowerCase(java.util.Locale.ROOT);
         SharedPreferences prefs = prefs(context);
+        // Remembered for native code that has no account of its own to give (the Remote Start widget's setup screen).
+        if (!account.isEmpty() && !account.equals(prefs.getString(LAST_ACCOUNT_KEY, null))) prefs.edit().putString(LAST_ACCOUNT_KEY, account).apply();
         if (!account.isEmpty() && prefs.contains(LEGACY_KEY)) {
             if (!prefs.contains(key())) prefs.edit().putString(key(), prefs.getString(LEGACY_KEY, "[]")).apply();
             prefs.edit().remove(LEGACY_KEY).apply();
