@@ -12,7 +12,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import uk.co.froglog.app.apps.FrogLogAppsPlugin;
 import uk.co.froglog.app.remote.FrogLogRemotePlugin;
+import uk.co.froglog.app.widgets.FrogLogSessionPlugin;
 import uk.co.froglog.app.widgets.FrogLogWidgetsPlugin;
 
 public class MainActivity extends BridgeActivity {
@@ -25,6 +27,8 @@ public class MainActivity extends BridgeActivity {
         registerPlugin(PageHeightPlugin.class);
         registerPlugin(FrogLogWidgetsPlugin.class);
         registerPlugin(FrogLogRemotePlugin.class);
+        registerPlugin(FrogLogSessionPlugin.class);
+        registerPlugin(FrogLogAppsPlugin.class);
         super.onCreate(savedInstanceState);
 
         // Capacitor only handles Back through @capacitor/app, which this app doesn't use, so

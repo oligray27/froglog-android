@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Registers this install's Firebase token with the backend while any widget is on the home
- * screen, so it can send silent refreshes (backend lib/social/widgetPush.js). Separate from
+ * screen, or the running session notification is shown, so it can send silent refreshes (backend lib/social/widgetPush.js). Separate from
  * notifications, which only register once they're turned on. Runs on WidgetSupport.WORKER.
  */
 final class WidgetDevices {
@@ -26,7 +26,9 @@ final class WidgetDevices {
             || WidgetSupport.ids(context, ThisWeekWidget.class, ThisWeekFlexWidget.class).length > 0
             || WidgetSupport.ids(context, FriendsWidget.class, FriendsFlexWidget.class).length > 0
             // Remote Start's play buttons follow your own session, which the same silent pushes report.
-            || RemoteStartWidget.ids(context).length > 0;
+            || RemoteStartWidget.ids(context).length > 0
+            // The running session notification goes when the session is stopped elsewhere, which the same pushes report.
+            || SessionNotification.owned(context);
     }
 
     // Cheap when already registered, so every widget refresh calls it.

@@ -38,6 +38,7 @@ public class FrogLogWidgetsPlugin extends Plugin {
             WidgetSupport.refreshAll(context);
         } else if (WidgetStore.isSignedIn(context)) {
             // Logging out: the device is unregistered with the old login before it's cleared.
+            SessionNotification.forget(context);
             WidgetSupport.WORKER.execute(() -> {
                 WidgetDevices.unregister(context);
                 WidgetStore.clearLogin(context);

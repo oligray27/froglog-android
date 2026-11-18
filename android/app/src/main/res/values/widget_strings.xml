@@ -60,6 +60,14 @@
     <string name="widget_remote_disabled">Remote devices are off in LilyPad on %1$s</string>
     <string name="widget_remote_different_account">LilyPad on %1$s is signed in as another user</string>
     <string name="widget_remote_signed_out">LilyPad on %1$s isn\'t signed in</string>
+    <string name="session_notification_channel">Running Session</string>
+    <string name="session_notification_channel_description">A Quick Session started on this phone, with Pause and Stop buttons.</string>
+    <string name="session_notification_untitled">Quick Session</string>
+    <string name="session_notification_running">Quick Session in progress</string>
+    <string name="session_notification_paused">Quick Session paused</string>
+    <string name="session_notification_pause">Pause</string>
+    <string name="session_notification_resume">Resume</string>
+    <string name="session_notification_stop">Stop</string>
     <plurals name="widget_remote_played_days">
         <item quantity="one">Played %d day ago</item>
         <item quantity="other">Played %d days ago</item>

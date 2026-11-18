@@ -152,7 +152,9 @@ public class QuickSessionWidget extends AppWidgetProvider {
                 JSONObject body = new JSONObject();
                 body.put("game_type", game.optString("game_type"));
                 body.put("game_id", game.optInt("game_id"));
-                FroglogApi.post(context, "/api/live-session/start", body);
+                FroglogApi.Response started = FroglogApi.post(context, "/api/live-session/start", body);
+                // Started on this phone, so it gets the running session notification.
+                if (started.status == 201) SessionNotification.own(context, started.body.optJSONObject("active"));
             }
         } catch (Exception ignored) {
             // The fetch that follows shows whatever state the session is really in.
@@ -548,7 +550,7 @@ public class QuickSessionWidget extends AppWidgetProvider {
         }
     }
 
-    private static String gameUrl(JSONObject session) {
+    static String gameUrl(JSONObject session) {
         int id = session.optInt("game_id", 0);
         if (id == 0) return "/games";
         return "live_service".equals(session.optString("game_type")) ? "/games/" + id + "?view=live" : "/games/" + id;

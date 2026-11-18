@@ -168,6 +168,11 @@
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
+        <!-- The running session notification's Pause and Resume buttons, and its swipe-away. -->
+        <receiver
+            android:name=".widgets.SessionNotification"
+            android:exported="false" />
+
         <!-- Replaces the push plugin's Firebase service, so widget refreshes are handled even with the app closed.
              Notifications still reach the plugin through it. -->
         <service
@@ -182,6 +187,14 @@
         </service>
     </application>
 
+    <!-- Play on Phone lists and opens installed apps. Only those with a launcher icon are visible. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -189,6 +202,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Android 16's Live Updates, for the running session's timer chip in the status bar -->
+    <uses-permission android:name="android.permission.POST_PROMOTED_NOTIFICATIONS" />
     <!-- navigator.vibrate in the WebView, used by the completion fireworks -->
     <uses-permission android:name="android.permission.VIBRATE" />
 </manifest>
