@@ -16,6 +16,7 @@ import uk.co.froglog.app.apps.FrogLogAppsPlugin;
 import uk.co.froglog.app.remote.FrogLogRemotePlugin;
 import uk.co.froglog.app.widgets.FrogLogSessionPlugin;
 import uk.co.froglog.app.widgets.FrogLogWidgetsPlugin;
+import uk.co.froglog.app.widgets.PushChannel;
 
 public class MainActivity extends BridgeActivity {
     // Pages where Back leaves the app: the Games page is the root once signed in.
@@ -30,6 +31,7 @@ public class MainActivity extends BridgeActivity {
         registerPlugin(FrogLogSessionPlugin.class);
         registerPlugin(FrogLogAppsPlugin.class);
         super.onCreate(savedInstanceState);
+        PushChannel.ensure(this);
 
         // Capacitor only handles Back through @capacitor/app, which this app doesn't use, so
         // without this Back always closed the app.

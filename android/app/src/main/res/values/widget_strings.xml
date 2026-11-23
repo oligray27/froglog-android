@@ -63,6 +63,8 @@
     <string name="session_notification_channel">Running Session</string>
     <string name="session_notification_channel_description">A Quick Session started on this phone, with Pause and Stop buttons.</string>
     <string name="session_notification_untitled">Quick Session</string>
+    <string name="push_channel">Notifications</string>
+    <string name="push_channel_description">Follows, likes, tags, badges, friends coming online and sessions logged.</string>
     <string name="session_notification_running">Quick Session in progress</string>
     <string name="session_notification_paused">Quick Session paused</string>
     <string name="session_notification_pause">Pause</string>

@@ -11,6 +11,13 @@ import com.google.firebase.messaging.RemoteMessage;
  * goes to the plugin as before, so notifications are unchanged.
  */
 public class FrogLogMessagingService extends MessagingService {
+    // Before Firebase shows anything, so a push arriving before the app has been opened since an update still pops up.
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        PushChannel.ensure(this);
+    }
+
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
         if ("widget_refresh".equals(message.getData().get("type"))) {

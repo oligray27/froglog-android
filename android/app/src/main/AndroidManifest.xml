@@ -36,6 +36,8 @@
                 android:resource="@xml/file_paths"></meta-data>
         </provider>
         <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_notification" />
+        <!-- Created by widgets.PushChannel. High importance, so pushes pop up (and can be One UI brief pop-ups). -->
+        <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="froglog_notifications" />
 
         <receiver
             android:name=".widgets.QuickSessionWidget"
